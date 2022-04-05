@@ -15,6 +15,7 @@ public class Drag : MonoBehaviour
             Vector3 touchPosition;
             if (Input.GetTouch(0).phase == TouchPhase.Began)
             {
+                ItemFollow.follow = false;
                 posStart = transform.position;
                 touchPosition = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 25f));
                 if (!GetComponent<Collider2D>().OverlapPoint(touchPosition))
@@ -32,6 +33,7 @@ public class Drag : MonoBehaviour
             }
             if (Input.GetTouch(0).phase == TouchPhase.Ended)
             {
+                ItemFollow.follow = true;
                 if (move)
                 {
                     transform.position = pos;
@@ -45,12 +47,13 @@ public class Drag : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "menu")
+        if (collision.gameObject.tag == "menu")
         {
             pos = collision.transform.position;
             move = true;
             ItemFollow.follow = true;
             ItemFollow.menu = collision.transform;
+            print("O item está no slot certo!");
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -58,6 +61,7 @@ public class Drag : MonoBehaviour
         if (collision.gameObject.tag == "menu")
         {
             move = false;
+
         }
     }
 }
